@@ -203,12 +203,13 @@ if DEBUG == 1 { print(howMuchMercuryFromFishCanISafelyIngest(weight: 80)) }
 A sequência de fibonacci começa em 0; e o retorno se n ≤ 0 deve ser 0.
 */
 func fibonacci(at n: Int) -> Int {
-    if n <= 0 { return 0 }
-    
-    return n + fibonacci(at: n-1)
+    //return n < 0 ? 0 : n == 1 ? 1 : fibonacci(at: n-2) + fibonacci(at: n-1)
+    return Int(round(
+        (pow(((1+sqrt(5))/2), Double(n)) - pow(((1-sqrt(5))/2), Double(n))) / sqrt(5)
+    ))
 }
 
-if DEBUG == 1 { print(fibonacci(at: 5)) }
+if DEBUG == 1 { print("fib:", fibonacci(at: 20)) }
 /*:
  ### 19. Implemente uma função que calcule o produto de todos os números inteiros naturais até um dado número n. [🐝🐝🐝🤯]
  */
