@@ -7,5 +7,6 @@
         <page name='3 Condicionais'/>
         <page name='4 Loops'/>
         <page name='5 Vetores'/>
+        <page name='6 Refatoracao - Parte 1'/>
     </pages>
 </playground>

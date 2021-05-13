@@ -6,5 +6,6 @@
  3. [Condicionais](3%20Condicionais)
  4. [Loops](4%20Loops)
  5. [Vetores](5%20Vetores)
+ 6. [Refatoração 1](6%20Refatoracao%20-%20Parte%201)
 
  */
