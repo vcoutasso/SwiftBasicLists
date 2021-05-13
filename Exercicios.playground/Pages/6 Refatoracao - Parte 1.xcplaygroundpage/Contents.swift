@@ -40,7 +40,7 @@
 // código aqui
 
 /*:
- ### 2. Bandeirinhas 2: Bandeirinhas de Coração [🐝]
+ ### 2. Bandeirinhas 2: Bandeirinhas de Coração [🐝🐝]
  Abaixo temos 99 emojis printados em 10 linhas. Refatore o código para uma função que, dado um número arbitrário, printe essa quantidade de emojis em linhas com no máximo 10 emojis cada. Linhas ímpares serão formadas por corações vermelhos, linhas pares serão feitas de corações azuis.
 
  ````
