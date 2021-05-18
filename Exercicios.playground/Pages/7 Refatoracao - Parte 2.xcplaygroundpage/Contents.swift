@@ -70,7 +70,7 @@
  */
 // código aqui
 
-/*:## Dupla Dinâmica [🐝🐝]
+/*:## 2. Dupla Dinâmica [🐝🐝]
  ### Desafio
  Dada uma lista de números inteiros distintos, conte o número de pares de inteiros nos quais a diferença, em módulo, seja igual ao número **K** informado.
 
@@ -126,7 +126,7 @@
  */
 // código aqui
 
-/*:## A espiã e a mensagem secreta [🐝🐝]
+/*:## 3. A espiã e a mensagem secreta [🐝🐝]
  ### Desafio
  Uma espiã precisa gerar um algoritmo de criptografia para se comunicar com seus superiores: dada uma mensagem (apenas em letras maiúsculas e sem acento) e um número inteiro **n** positivo, trocar cada letra da mensagem pela letra que está *n* posições a sua frente. Trate isso de forma circular: se tivermos a letra 'Z' e n = 1, a letra de troca deveria ser 'A' e , caso n = 2,  'B'.
 
@@ -204,7 +204,7 @@
  */
 // código aqui
 
-/*:##  Copa Pistola [🐝🐝]
+/*:## 4. Copa Pistola [🐝🐝]
  ### Desafio
  Relâmpago Marcão, corredor automobilístico de primeira, está fazendo simulações de quantos prêmios vai ganhar ao longo de sua carreira -- e também fazendo projeções para seus amigos.
 
@@ -289,7 +289,7 @@
  */
 // código aqui
 
-/*:## Validação de CPF [🐝🐝🐝]
+/*:## 5. Validação de CPF [🐝🐝🐝]
  ### Desafio
  Esse código abaixo valida se um CPF é válido ou não.
 
