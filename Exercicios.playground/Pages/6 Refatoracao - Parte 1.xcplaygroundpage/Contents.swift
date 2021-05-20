@@ -37,8 +37,11 @@
 
  Refaça o código de forma que tenhamos uma função que retorne uma ```String``` feita de uma quantidade arbitrária de um mesmo emoji. Use o resultado da função para printar exatamente 10 mil emojis.
  */
-// código aqui
+func nEmojis(emoji: String, n: Int) -> String {
+    return String(repeating: emoji, count: n)
+}
 
+print(nEmojis(emoji: "❤️", n: 10))
 /*:
  ### 2. Bandeirinhas 2: Bandeirinhas de Coração [🐝🐝]
  Abaixo temos 99 emojis printados em 10 linhas. Refatore o código para uma função que, dado um número arbitrário, printe essa quantidade de emojis em linhas com no máximo 10 emojis cada. Linhas ímpares serão formadas por corações vermelhos, linhas pares serão feitas de corações azuis.
@@ -57,8 +60,18 @@
  ````
  `
  */
- // código aqui
+func printHearts(n: Int) {
+    var remaining = n
+    var count = 1
+    
+    while remaining > 0 {
+        print(String(repeating: count % 2 == 1 ? "❤️" : "💙", count: remaining > 10 ? 10 : remaining))
+        count += 1
+        remaining -= 10
+    }
+}
 
+printHearts(n: 99)
 /*:
 ### 3. Bandeirinhas 3: Bandeirinhas de Emoji [🐝🐝]
  Altere a função desenvolvida no problema anterior (Bandeirinhas de Coração) para garantir que, ao chamar a função, o programador possa passar alguns parâmetros adicionais:
@@ -69,8 +82,18 @@
 
  Dica: Emoji será sempre uma ```String``` e será passado para os parâmetros entre aspas, como qualquer outro caractere (i.e.: "⚡️").
 */
-// código aqui
+func printEmojis(emojiEven: String, emojiOdd: String, n: Int) {
+    var remaining = n
+    var count = 1
+    
+    while remaining > 0 {
+        print(String(repeating: count % 2 == 1 ? emojiEven: emojiOdd, count: remaining > 10 ? 10 : remaining))
+        count += 1
+        remaining -= 10
+    }
+}
 
+printEmojis(emojiEven: "🚗", emojiOdd: "🚙", n: 99)
 /*:
 ### 4. Refatoração: Fatores de um número [🐝🐝]
  Esse código abaixo computa os fatores de um determinado número.
@@ -89,8 +112,11 @@
     print(r3)
  
 */
-// código aqui
+func numberFactors(n: Int) -> [Int] {
+    (1...n).filter { n % $0 == 0 }
+}
 
+print(numberFactors(n: 6))
 /*:
 ### 5. Refatoração: Menor Múltiplo Comum [🐝🐝]
  Refatore o código abaixo. Esse código calcula o mínimo múltiplo comum (MMC).
@@ -119,38 +145,17 @@
     print(common)
     ```
 */
-// código aqui
+func mmc(a: Int, b: Int) -> Int {
+    var result = max(a, b)
+    
+    while !(result % a == 0 && result % b == 0) {
+        result += 1
+    }
+    
+    return result
+}
 
-/*:
-### 5. Refatoração: Menor Múltiplo Comum [🐝🐝]
- Refatore o código abaixo. Esse código calcula o mínimo múltiplo comum (MMC).
-
- O mínimo múltiplo comum (MMC) corresponde ao menor número inteiro positivo, diferente de zero, que é múltiplo ao mesmo tempo de dois ou mais números.
- 
- * Callout(Para refatorar):
-    ````
-     let xx=2
-     let yy=7
-     var g = 0
-     if xx > yy {
-     g = xx
-     }else { g=yy }
-
-     var common: Int = 0
-     var t = true
-     while t {
-         if g   % xx == 0 && g %  yy == 0 {
-            common=g
-            break
-         }
-         g += 1
-     }
-
-     print(common)
-     ````
- */
-// código aqui
-
+print(mmc(a: 2, b: 7))
 /*: 
 ### 6. Refatoração: Mínimo Divisor Comum [🐝🐝]
  Esse código abaixo computa o máximo divisor comum entre dois números.  Refatore-o.
@@ -173,8 +178,19 @@
      print(comum)
      ````
 */
-// código aqui
+func mdc(a: Int, b: Int) -> Int {
+    var result = 0
+    
+    for i in 1...min(a, b) {
+        if a % i == 0 && b % i == 0 {
+            result = i
+        }
+    }
+    
+    return result
+}
 
+print(mdc(a: 12, b: 27))
 /*:
 ### 7. Refatoração: Sequência de números primos [🐝🐝]
  Refatore o código a baixo. Esse código apresenta todos os números primos que estão abaixo de um determinado valor.
@@ -200,8 +216,28 @@
      print(r2)
     ````
  */
-// código aqui
+func primesUpTo(upper: Int) -> [Int] {
+    var primes = [Int]()
+    
+    for i in 2...upper {
+        var isPrime = true
+        
+        for j in 2..<i {
+            if i % j == 0 {
+                isPrime = false
+                break
+            }
+        }
+            
+        if isPrime {
+            primes.append(i)
+        }
+    }
+    
+    return primes
+}
 
+print(primesUpTo(upper: 10))
 /*:
 ### 8. Refatoração: Sort Ascendente [🐝🐝]
 Esse código abaixo ordena os valores de uma lista de forma ascendente. Refatore.
@@ -222,8 +258,11 @@ Esse código abaixo ordena os valores de uma lista de forma ascendente. Refatore
      print(l)
      ```
 */
-// código aqui
+func ascendingSort(array: [Int]) -> [Int] {
+    array.sorted()
+}
 
+print(ascendingSort(array: [2, 3, 1]))
 /*:
 ### 9. Bandeirinhas 4: 3 Tipos de Bandeira [🐝🐝🐝]
  Altere a função anterior para que haja 3 linhas diferentes, sempre na mesma ordem. Como no exemplo abaixo, que printa 85 emojis em linhas de tamanho 10.
@@ -247,5 +286,16 @@ Esse código abaixo ordena os valores de uma lista de forma ascendente. Refatore
      print("💛💛💛💛💛")            // linha 9
     ```
 */
-// código aqui
+func printEmojis(n: Int, emojiA: String, emojiB: String, emojiC: String) {
+    var remaining = n
+    var count = 0
+    
+    while remaining > 0 {
+        print(String(repeating: count == 0 ? emojiA : count == 1 ? emojiB : emojiC,
+                     count: remaining > 10 ? 10 : remaining))
+        count = (count + 1) % 3
+        remaining -= 10
+    }
+}
 
+printEmojis(n: 85, emojiA: "❤️", emojiB: "💙", emojiC: "💛")
