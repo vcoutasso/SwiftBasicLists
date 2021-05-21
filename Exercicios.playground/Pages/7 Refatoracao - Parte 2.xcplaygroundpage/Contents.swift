@@ -452,22 +452,28 @@ func validateCPF(cpf: String) -> Bool {
     // CPF numbers with last validation digit dropped
     let secondValidationStr = onlyNumbers.dropLast(1)
     
+    let validator: (String.SubSequence, Int) -> Int = {
+        zip($0, stride(from: $1, through: 2, by: -1))
+        .map { ch, num in ch.wholeNumberValue! * num }
+        .reduce(0, +)
+    }
+    
+    let lastNumberValue: (String) -> Int? = { $0.last!.wholeNumberValue }
+
     // First digit verification
-    let firstValidationSum = zip(firstValidationStr, stride(from: 10, through: 2, by: -1))
-        .map { ch, num in ch.wholeNumberValue! * num }.reduce(0, +)
+    let firstValidationSum = validator(firstValidationStr, 10)
     
     // Second digit verification
-    let secondValidationSum = zip(secondValidationStr, stride(from: 11, through: 2, by: -1))
-        .map { ch, num in ch.wholeNumberValue! * num }.reduce(0, +)
-    
+    let secondValidationSum = validator(secondValidationStr, 11)
+
     // This should be equal to the first validation digit
     let secondSumModulus = ((10 * secondValidationSum) % 11) % 10
     // This should be equal to the second validation digit
     let firstSumModulus = ((10 * firstValidationSum) % 11) % 10
-    
+
     // Check if both the first and second digits are valid
-    return firstSumModulus == secondValidationStr.last!.wholeNumberValue
-        && secondSumModulus == cpf.last!.wholeNumberValue ? true : false
+    return firstSumModulus == lastNumberValue(String(secondValidationStr)) &&
+            secondSumModulus == lastNumberValue(cpf)
 }
 
 print(validateCPF(cpf: "111.111.111-11")) // false
