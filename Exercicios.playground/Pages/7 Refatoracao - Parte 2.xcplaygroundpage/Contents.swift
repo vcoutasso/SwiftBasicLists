@@ -68,8 +68,22 @@
                }
  ```
  */
-// código aqui
+func keepSumming(_ array: [Int]) {
+    var pairs: [Int] = []
+    
+    for i in 0..<array.count {
+        for j in 0..<array.count {
+            if i != j {
+                let pair = array[i] * 10 + array[j]
+                pairs.append(pair)
+            }
+        }
+    }
+    
+    print(Array(Set(pairs)).reduce(0, +))
+}
 
+keepSumming([2, 3, 4])
 /*:## 2. Dupla Dinâmica [🐝🐝]
  ### Desafio
  Dada uma lista de números inteiros distintos, conte o número de pares de inteiros nos quais a diferença, em módulo, seja igual ao número **K** informado.
@@ -124,8 +138,20 @@
  }
  ```
  */
-// código aqui
+func contaDuplas(lista: [Int], k: Int) -> Int {
+    var acc = 0
+    
+    for i in 0..<lista.count - 1 {
+        for j in i + 1..<lista.count {
+            if abs(lista[i] - lista[j]) == k {
+                acc += 1
+            }
+        }
+    }
+    return acc
+}
 
+print(contaDuplas(lista: [1, 5, 3, 4, 2], k: 2))
 /*:## 3. A espiã e a mensagem secreta [🐝🐝]
  ### Desafio
  Uma espiã precisa gerar um algoritmo de criptografia para se comunicar com seus superiores: dada uma mensagem (apenas em letras maiúsculas e sem acento) e um número inteiro **n** positivo, trocar cada letra da mensagem pela letra que está *n* posições a sua frente. Trate isso de forma circular: se tivermos a letra 'Z' e n = 1, a letra de troca deveria ser 'A' e , caso n = 2,  'B'.
@@ -202,8 +228,19 @@
  print(dec0Ded)
  ```
  */
-// código aqui
+func caesarCipher(text: String, shift: Int) -> String {
+    text.uppercased().unicodeScalars.map { ch in
+        if ch.isASCII {
+            let valueA = UnicodeScalar("A").value
+            let newCh = UnicodeScalar((ch.value + UInt32(shift)) % (UnicodeScalar("Z").value + 1))!
+            
+            return String(newCh.value < valueA ? UnicodeScalar(newCh.value + valueA)! : newCh)
+        }
+        return String(ch)
+    }.reduce("", +)
+}
 
+print(caesarCipher(text: "ABCDEZ", shift: 4))
 /*:## 4. Copa Pistola [🐝🐝]
  ### Desafio
  Relâmpago Marcão, corredor automobilístico de primeira, está fazendo simulações de quantos prêmios vai ganhar ao longo de sua carreira -- e também fazendo projeções para seus amigos.
@@ -287,8 +324,52 @@
  }
  ```
  */
-// código aqui
+import Foundation
 
+enum carTypes {
+    case urbanCar
+    case ruralCar
+    case raceCar
+    case forkLift
+}
+
+func simulate(name: String, years: Double, power: Double, type: carTypes) -> Int {
+    let knownRacers = ["Relâmpago Marcão", "Sully", "Doutor Hud", "Filmore 15", "Guidorizzi", "Wazowski 5", "Carro DINOCO", "Godkong 1", "Kingzilla 2"]
+    let yearsMax = 100.0
+    
+    if years < yearsMax {
+        if knownRacers.contains(name) {
+            var nameAwards = Int(name.filter({ $0.isNumber })) ?? 0
+            
+            if name == knownRacers[0] {
+                nameAwards += 3000
+            }
+            
+            var typeAwards = 0
+            
+            switch type {
+            case .urbanCar:
+                typeAwards += 5 + Int(years * 0.5)
+            case .ruralCar:
+                typeAwards += Int(0.05 * power)
+            case .raceCar:
+                typeAwards += Int(log2(power) * years)
+            case .forkLift:
+                typeAwards += 200
+            }
+            
+            return nameAwards + typeAwards
+        }
+        else {
+            return Int.random(in: 10...20)
+        }
+    }
+    else {
+        return -1
+    }
+}
+
+print(simulate(name: "Relâmpago Marcão", years: 10, power: 100, type: .raceCar))
 /*:## 5. Validação de CPF [🐝🐝🐝]
  ### Desafio
  Esse código abaixo valida se um CPF é válido ou não.
@@ -346,5 +427,59 @@
  ```
  
  */
-// código aqui
+func validateCPF(cpf: String) -> Bool {
+    
+    let onlyNumbers = cpf.filter({ $0.isNumber })
+    
+    /* String format checking */
+    
+    // All "." should be at these indexes
+    let dotIndexes = [3, 7,]
+    // The only "-" should be at this index
+    let hyphenIndexes = [11,]
+    
+    guard cpf.count == 14, // Check if the string is of the right length
+          dotIndexes.map({ Array(cpf)[$0] }).allSatisfy({ $0 == "." }), // Check if the dots are at the right places and only at the right places
+          hyphenIndexes.map({ Array(cpf)[$0] }).allSatisfy({ $0 == "-" }), // Check if the hyphen is at the right place and only at the right place
+          onlyNumbers.count == 11, // If the string passes the conditions above, it must have exactly 11 digits
+          onlyNumbers.contains(where: { $0 != onlyNumbers.first! }) // Check if the numbers are all equal (they shouldn't be!)
+    else { return false }
+    
+    /* CPF validation */
+    
+    // CPF numbers with both validation digits dropped
+    let firstValidationStr = onlyNumbers.dropLast(2)
+    // CPF numbers with last validation digit dropped
+    let secondValidationStr = onlyNumbers.dropLast(1)
+    
+    // First digit verification
+    let firstValidationSum = zip(firstValidationStr, stride(from: 10, through: 2, by: -1))
+        .map { ch, num in ch.wholeNumberValue! * num }.reduce(0, +)
+    
+    // Second digit verification
+    let secondValidationSum = zip(secondValidationStr, stride(from: 11, through: 2, by: -1))
+        .map { ch, num in ch.wholeNumberValue! * num }.reduce(0, +)
+    
+    // This should be equal to the first validation digit
+    let secondSumModulus = ((10 * secondValidationSum) % 11) % 10
+    // This should be equal to the second validation digit
+    let firstSumModulus = ((10 * firstValidationSum) % 11) % 10
+    
+    // Check if both the first and second digits are valid
+    return firstSumModulus == secondValidationStr.last!.wholeNumberValue
+        && secondSumModulus == cpf.last!.wholeNumberValue ? true : false
+}
 
+print(validateCPF(cpf: "111.111.111-11")) // false
+print(validateCPF(cpf: "529.982.247-25")) // true
+print(validateCPF(cpf: "123.456.789-10")) // false
+print(validateCPF(cpf: "496.055.962-45")) // true
+print(validateCPF(cpf: "933.524.623-99")) // true
+print(validateCPF(cpf: "640.128.790-06")) // true
+print(validateCPF(cpf: "444.333.111-43")) // false
+print(validateCPF(cpf: "333.222.456-15")) // false
+print(validateCPF(cpf: "64012879006")) // false
+print(validateCPF(cpf: "640 128 790 06")) // false
+print(validateCPF(cpf: "640.12.8790-06")) // false
+print(validateCPF(cpf: "640.128.79-006")) // false
+print(validateCPF(cpf: "Lorem ipsum dolor sit amet")) // hopefully false
